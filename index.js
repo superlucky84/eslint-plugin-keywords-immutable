@@ -3,7 +3,7 @@
 module.exports = {
   rules: {
     "no-mutation": function(context) {
-      const keywords = context.options[0] || ['window'];
+      const keywords = context.options[0] || ['event'];
 
       return {
         "AssignmentExpression": function(node) {
