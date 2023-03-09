@@ -25,6 +25,10 @@ ruleTester.run("no-mutation", rule, {
       code: "[a.k, a.j] = [1, 3];",
       options: [['window', '__W']]
     },
+    {
+      code: "[[a.k, a.j], a.k] = [[1, 3], 3];",
+      options: [['window', '__W']]
+    },
   ],
   invalid: [
     {
@@ -36,6 +40,13 @@ ruleTester.run("no-mutation", rule, {
     },
     {
       code: "window.x = 'no exceptions';",
+      options: [['window', '__W']],
+      errors: [{
+        message: "No object mutation is allowed.",
+      }],
+    },
+    {
+      code: "[[__W.a, __W.b]] = [[1, 3], 3];",
       options: [['window', '__W']],
       errors: [{
         message: "No object mutation is allowed.",
