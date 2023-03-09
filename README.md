@@ -29,5 +29,29 @@ This can be customized.
   }
 ```
 
+
+## Example
+
+#### invalid
+
+* Not allowed because it is part of a keyword.
+
+```js
+// "keywords-immutable/no-mutation": [2, ['point']]
+point.x = 3;
+pointParent.point.x = 3;
+[point.x, point.y] = [1, 3];
+```
+
+#### valid
+* Allowed because it is not part of a keyword.
+
+```js
+// "keywords-immutable/no-mutation": [2, ['point']]
+obj.a = 3;
+objParent.obj.x = 3;
+[obj.x, obj.b] = [1, 3];
+```
+
 ## Contributing
 Please submit a PR.
