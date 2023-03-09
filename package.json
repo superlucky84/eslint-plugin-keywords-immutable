@@ -1,0 +1,23 @@
+{
+  "name": "eslint-plugin-keywords-immutable",
+  "version": "1.0.0",
+  "description": "ESLint plugin to disable targeting keyword mutation in JavaScript.",
+  "main": "index.js",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "mutation",
+    "immutable",
+    "immutability",
+    "targeting"
+  ],
+  "scripts": {
+    "test": "mocha --recursive -s 15 test/"
+  },
+  "author": "superlucky84",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "mocha": "^10.2.0"
+  }
+}
