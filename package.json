@@ -8,11 +8,15 @@
     "eslintplugin",
     "mutation",
     "immutable",
-    "immutability",
-    "targeting"
+    "targeting",
+    "keywords"
   ],
   "scripts": {
-    "test": "mocha --recursive -s 15 test/"
+    "test": "mocha test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superlucky84/eslint-plugin-keywords-immutable.git"
   },
   "author": "superlucky84",
   "license": "ISC",
