@@ -12,7 +12,7 @@ Add the following to your `.eslintrc`
 By default, "event" are disallowed to be mutated.
 ```
   plugins: [
-    "mutation"
+    "keywords-immutable"
   ],
   rules: {
     "keywords-immutable/no-mutation": 2
