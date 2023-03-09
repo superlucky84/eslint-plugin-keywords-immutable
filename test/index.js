@@ -39,35 +39,35 @@ ruleTester.run("no-mutation", rule, {
       code: "__W.x = 'no exceptions';",
       options: [['window', '__W']],
       errors: [{
-        message: "No object mutation is allowed.",
+        message: "This is an unacceptable mutation.",
       }],
     },
     {
       code: "window.x = 'no exceptions';",
       options: [['window', '__W']],
       errors: [{
-        message: "No object mutation is allowed.",
+        message: "This is an unacceptable mutation.",
       }],
     },
     {
       code: "[[__W.a, __W.b]] = [[1, 3], 3];",
       options: [['window', '__W']],
       errors: [{
-        message: "No object mutation is allowed.",
+        message: "This is an unacceptable mutation.",
       }],
     },
     {
       code: "[__W.a, __W.b] = [1, 3];",
       options: [['window', '__W']],
       errors: [{
-        message: "No object mutation is allowed.",
+        message: "This is an unacceptable mutation.",
       }],
     },
     {
       code: "[k.j.w.__W.a, __W.b] = [1, 3];",
       options: [['window', '__W']],
       errors: [{
-        message: "No object mutation is allowed.",
+        message: "This is an unacceptable mutation.",
       }],
     },
     {
@@ -75,7 +75,7 @@ ruleTester.run("no-mutation", rule, {
       // code: "__W.v = [1, 3];",
       options: [['window', '__W']],
       errors: [{
-        message: "No object mutation is allowed.",
+        message: "This is an unacceptable mutation.",
       }],
     },
   ],
