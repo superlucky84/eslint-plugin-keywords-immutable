@@ -11,7 +11,9 @@ module.exports = {
             context.report(node, "No object mutation is allowed.");
           } else if (node.left.type !== "MemberExpression") {
             return;
-          } else if (keywords.indexOf(node.left.object.name) > -1){
+          } else if (node.left.object.property && keywords.indexOf(node.left.object.property.name) > -1){
+            context.report(node, "No object mutation is allowed.");
+          } else if (node.left.object.name && keywords.indexOf(node.left.object.name) > -1){
             context.report(node, "No object mutation is allowed.");
           }
 
@@ -34,6 +36,8 @@ function catchArrayDestructuring(target, keywords) {
     return target.elements.some(item => catchArrayDestructuring(item, keywords));
   } else if (target.type !== "MemberExpression") {
     return false;
+  } else if (target.object.property && keywords.indexOf(target.object.property.name) > -1){
+    return true;
   } else if (keywords.indexOf(target.object.name) > -1){
     return true;
   }
