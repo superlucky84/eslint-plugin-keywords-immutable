@@ -20,7 +20,20 @@ Can customize keywords, including regular expressions.
   }
 ```
 
-By default, "event" are disallowed to be mutated.
+#### Second Option
+
+The second option is the check depth option. If true, depths greater than 2 are also considered unchangeable. The default value is false.
+
+```
+  plugins: [
+    "keywords-immutable"
+  ],
+  rules: {
+    "keywords-immutable/no-mutation": [2, ['window', 'event', 'global', /^FINAL_/], true]
+  }
+```
+
+#### By default, "event" are disallowed to be mutated.
 When used without options, the default option is ['event'].
 ```
   plugins: [
@@ -46,6 +59,11 @@ point.x = 3;
 pointParent.point.x = 3;
 [point.x, point.y] = [1, 3];
 ({ a: point.s } = { a: 3 });
+
+// "keywords-immutable/no-mutation": [2, ['point', /^FINAL/], true]
+point.x.y = 3;
+pointParent.point.x.y = 3;
+
 ```
 
 #### valid

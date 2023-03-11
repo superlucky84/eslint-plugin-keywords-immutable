@@ -54,8 +54,22 @@ ruleTester.run("no-mutation", rule, {
         message: "This is an unacceptable mutation.",
       }],
     },
+    {
+      code: "__W.x.y = 'no exceptions';",
+      options: [['window', '__W'], false],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
   ],
   invalid: [
+    {
+      code: "__W.x.y = 'no exceptions';",
+      options: [['window', '__W'], true],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
     {
       code: "__W.x = 'no exceptions';",
       options: [['window', '__W']],
