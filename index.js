@@ -9,6 +9,8 @@ module.exports = {
         "AssignmentExpression": function(node) {
           if (node.left.type === 'ArrayPattern' && catchArrayDestructuring(node.left, keywords)) {
             context.report(node, "This is an unacceptable mutation.");
+          } else if (node.left.type === "ObjectPattern" && catchArrayDestructuring(node.left, keywords)) {
+            context.report(node, "This is an unacceptable mutation.");
           } else if (node.left.type !== "MemberExpression") {
             return;
           } else if (node.left.object.property && keywords.indexOf(node.left.object.property.name) > -1){
@@ -34,6 +36,8 @@ module.exports = {
 function catchArrayDestructuring(target, keywords) {
   if (target.type === 'ArrayPattern') {
     return target.elements.some(item => catchArrayDestructuring(item, keywords));
+  } else if (target.type === "ObjectPattern") {
+    return target.properties.some(item => catchArrayDestructuring(item.value, keywords));
   } else if (target.type !== "MemberExpression") {
     return false;
   } else if (target.object.property && keywords.indexOf(target.object.property.name) > -1){

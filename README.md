@@ -41,6 +41,7 @@ This can be customized.
 point.x = 3;
 pointParent.point.x = 3;
 [point.x, point.y] = [1, 3];
+({ a: point.s } = { a: 3 });
 ```
 
 #### valid
@@ -51,6 +52,7 @@ pointParent.point.x = 3;
 obj.a = 3;
 objParent.obj.x = 3;
 [obj.x, obj.b] = [1, 3];
+({ a: obj.s } = { a: 3 });
 ```
 
 ## Contributing

@@ -33,6 +33,13 @@ ruleTester.run("no-mutation", rule, {
       code: "[[a.k, a.j], a.k] = [[1, 3], 3];",
       options: [['window', '__W']]
     },
+    {
+      code: "({ a: { b: obj.s } } = { a: { b: 3 } });",
+      options: [['window', '__W']],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
   ],
   invalid: [
     {
@@ -72,7 +79,27 @@ ruleTester.run("no-mutation", rule, {
     },
     {
       code: "a.b.c.d.__W.v = [1, 3];",
-      // code: "__W.v = [1, 3];",
+      options: [['window', '__W']],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
+    {
+      code: "({ a: __W.s } = { a: 3 });",
+      options: [['window', '__W']],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
+    {
+      code: "({ a: k.__W.s } = { a: 3 });",
+      options: [['window', '__W']],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
+    {
+      code: "({ a: { b: __W.s } } = { a: { b: 3 } });",
       options: [['window', '__W']],
       errors: [{
         message: "This is an unacceptable mutation.",
