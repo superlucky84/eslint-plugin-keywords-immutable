@@ -32,11 +32,23 @@ function catchArrayDestructuring(target, keywords) {
     return target.properties.some(item => catchArrayDestructuring(item.value, keywords));
   } else if (target.type !== "MemberExpression") {
     return false;
-  } else if (target.object.property && keywords.indexOf(target.object.property.name) > -1){
+  } else if (target.object.property && checkKeyword(target.object.property.name, keywords)){
     return true;
-  } else if (keywords.indexOf(target.object.name) > -1){
+  } else if (checkKeyword(target.object.name, keywords)){
     return true;
   }
 
   return  false;
+}
+
+function checkKeyword(name, keywords) {
+  const regexs = keywords.filter(word => word instanceof RegExp);
+
+  if (keywords.indexOf(name) > -1) {
+    return true;
+  } else if (regexs.length) {
+    return regexs.some(regex => regex.test(name));
+  }
+
+  return false;
 }

@@ -40,6 +40,20 @@ ruleTester.run("no-mutation", rule, {
         message: "This is an unacceptable mutation.",
       }],
     },
+    {
+      code: "STATIC_X.x = 'no exceptions';",
+      options: [[/^(final|FINAL)/]],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
+    {
+      code: "({ a: { b: STATIC.s } } = { a: { b: 3 } });",
+      options: [[/^(final|FINAL)/]],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
   ],
   invalid: [
     {
@@ -101,6 +115,20 @@ ruleTester.run("no-mutation", rule, {
     {
       code: "({ a: { b: __W.s } } = { a: { b: 3 } });",
       options: [['window', '__W']],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
+    {
+      code: "FINAL_STATIC_X.x = 'no exceptions';",
+      options: [[/^(final|FINAL)/]],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
+    {
+      code: "({ a: { b: FINAL.s } } = { a: { b: 3 } });",
+      options: [[/^(final|FINAL)/]],
       errors: [{
         message: "This is an unacceptable mutation.",
       }],
