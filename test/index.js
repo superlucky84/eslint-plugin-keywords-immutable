@@ -175,5 +175,12 @@ ruleTester.run("no-mutation", rule, {
         message: "This is an unacceptable mutation.",
       }],
     },
+    {
+      code: "Object.assign(__W, { v: 3 });",
+      options: [['__W']],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
   ],
 });

@@ -1,49 +1,60 @@
-"use strict";
+'use strict';
 
 module.exports = {
   rules: {
-    "no-mutation": function(context) {
+    'no-mutation': function (context) {
       const keywords = context.options[0] || ['event'];
       const deep = context.options[1] || false;
 
       return {
-        "AssignmentExpression": function(node) {
+        AssignmentExpression: function (node) {
           if (catchAssignmentExpression(node.left, keywords, deep)) {
-            context.report(node, "This is an unacceptable mutation.");
+            context.report(node, 'This is an unacceptable mutation.');
           }
 
           return;
         },
-        "CallExpression": function(node) {
+        CallExpression: function (node) {
           if (catchCallExression(node, keywords, deep)) {
-            context.report(node, "This is an unacceptable mutation.");
+            context.report(node, 'This is an unacceptable mutation.');
           }
 
           return;
-        }
+        },
       };
-    }   
+    },
   },
   configs: {
     recommended: {
       rules: {
-        "keywords-immutable/no-mutation": [2, ['event']]
-      }
-    }
-  }    
+        'keywords-immutable/no-mutation': [2, ['event']],
+      },
+    },
+  },
 };
 
 function catchCallExression(node, keywords, deep) {
   const objectName = node?.callee?.object?.name;
   const objectMethodName = node?.callee?.property?.name;
-  const isAssignMehotd = objectName === 'Object' && objectMethodName === 'assign';
+  const isAssignMehotd =
+    objectName === 'Object' && objectMethodName === 'assign';
 
   if (isAssignMehotd) {
     const firstArgument = node.arguments[0];
-
-    if (firstArgument.type !== "MemberExpression") {
-      return false;
-    } else if (catchAssignmentExpression({object : firstArgument, type: 'MemberExpression'}, keywords, deep)) {
+    if (
+      firstArgument.type === 'Identifier' &&
+      firstArgument.name &&
+      checkKeyword(firstArgument.name, keywords)
+    ) {
+      return true;
+    } else if (
+      firstArgument.type === 'MemberExpression' &&
+      catchAssignmentExpression(
+        { object: firstArgument, type: 'MemberExpression' },
+        keywords,
+        deep
+      )
+    ) {
       return true;
     }
 
@@ -53,20 +64,27 @@ function catchCallExression(node, keywords, deep) {
 
 function catchAssignmentExpression(target, keywords, deep) {
   if (target.type === 'ArrayPattern') {
-    return target.elements.some(item => catchAssignmentExpression(item, keywords, deep));
-  } else if (target.type === "ObjectPattern") {
-    return target.properties.some(item => catchAssignmentExpression(item.value, keywords, deep));
-  } else if (target.type !== "MemberExpression") {
+    return target.elements.some(item =>
+      catchAssignmentExpression(item, keywords, deep)
+    );
+  } else if (target.type === 'ObjectPattern') {
+    return target.properties.some(item =>
+      catchAssignmentExpression(item.value, keywords, deep)
+    );
+  } else if (target.type !== 'MemberExpression') {
     return false;
-  } else if (target.object.property && checkKeyword(target.object.property.name, keywords)){
+  } else if (
+    target.object.property &&
+    checkKeyword(target.object.property.name, keywords)
+  ) {
     return true;
-  } else if (checkKeyword(target.object.name, keywords)){
+  } else if (checkKeyword(target.object.name, keywords)) {
     return true;
-  } else if (deep && target.object.object){
+  } else if (deep && target.object.object) {
     return catchAssignmentExpression(target.object, keywords, deep);
   }
 
-  return  false;
+  return false;
 }
 
 function checkKeyword(name, keywords) {
