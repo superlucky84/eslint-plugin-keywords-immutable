@@ -8,7 +8,14 @@ module.exports = {
 
       return {
         "AssignmentExpression": function(node) {
-          if (catchArrayDestructuring(node.left, keywords, deep)) {
+          if (catchAssignmentExpression(node.left, keywords, deep)) {
+            context.report(node, "This is an unacceptable mutation.");
+          }
+
+          return;
+        },
+        "CallExpression": function(node) {
+          if (catchCallExression(node, keywords)) {
             context.report(node, "This is an unacceptable mutation.");
           }
 
@@ -26,11 +33,28 @@ module.exports = {
   }    
 };
 
-function catchArrayDestructuring(target, keywords, deep) {
+function catchCallExression(node, keywords) {
+  const objectName = node?.callee?.object?.name;
+  const objectMethodName = node?.callee?.property?.name;
+  const isAssignMehotd = objectName === 'Object' && objectMethodName === 'assign';
+
+  if (isAssignMehotd) {
+    const firstArgument = node.arguments[0];
+    if (firstArgument.name && checkKeyword(firstArgument.name, keywords)) {
+      return true;
+    } else if (firstArgument.property && checkKeyword(firstArgument.property.name, keywords)) {
+      return true;
+    }
+
+    return false;
+  }
+}
+
+function catchAssignmentExpression(target, keywords, deep) {
   if (target.type === 'ArrayPattern') {
-    return target.elements.some(item => catchArrayDestructuring(item, keywords, deep));
+    return target.elements.some(item => catchAssignmentExpression(item, keywords, deep));
   } else if (target.type === "ObjectPattern") {
-    return target.properties.some(item => catchArrayDestructuring(item.value, keywords, deep));
+    return target.properties.some(item => catchAssignmentExpression(item.value, keywords, deep));
   } else if (target.type !== "MemberExpression") {
     return false;
   } else if (target.object.property && checkKeyword(target.object.property.name, keywords)){
@@ -38,7 +62,7 @@ function catchArrayDestructuring(target, keywords, deep) {
   } else if (checkKeyword(target.object.name, keywords)){
     return true;
   } else if (deep && target.object.object){
-    return catchArrayDestructuring(target.object, keywords, deep);
+    return catchAssignmentExpression(target.object, keywords, deep);
   }
 
   return  false;

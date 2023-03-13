@@ -59,6 +59,7 @@ point.x = 3;
 pointParent.point.x = 3;
 [point.x, point.y] = [1, 3];
 ({ a: point.s } = { a: 3 });
+Object.assign(point, { v: 3 });
 
 // "keywords-immutable/no-mutation": [2, ['point', /^FINAL/], true]
 point.x.y = 3;
