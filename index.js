@@ -15,7 +15,7 @@ module.exports = {
           return;
         },
         "CallExpression": function(node) {
-          if (catchCallExression(node, keywords)) {
+          if (catchCallExression(node, keywords, deep)) {
             context.report(node, "This is an unacceptable mutation.");
           }
 
@@ -33,17 +33,20 @@ module.exports = {
   }    
 };
 
-function catchCallExression(node, keywords) {
+function catchCallExression(node, keywords, deep) {
   const objectName = node?.callee?.object?.name;
   const objectMethodName = node?.callee?.property?.name;
   const isAssignMehotd = objectName === 'Object' && objectMethodName === 'assign';
 
   if (isAssignMehotd) {
     const firstArgument = node.arguments[0];
+
     if (firstArgument.name && checkKeyword(firstArgument.name, keywords)) {
       return true;
     } else if (firstArgument.property && checkKeyword(firstArgument.property.name, keywords)) {
       return true;
+    } else if (deep && firstArgument.object.object){
+      return catchAssignmentExpression(firstArgument.object, keywords, deep);
     }
 
     return false;

@@ -61,6 +61,13 @@ ruleTester.run("no-mutation", rule, {
         message: "This is an unacceptable mutation.",
       }],
     },
+    {
+      code: "Object.assign(k.j.w.__W.a.v, { v: 3 });",
+      options: [['__W'], false],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
   ],
   invalid: [
     {
@@ -157,6 +164,13 @@ ruleTester.run("no-mutation", rule, {
     {
       code: "Object.assign(k.j.w.__W, { v: 3 });",
       options: [['__W']],
+      errors: [{
+        message: "This is an unacceptable mutation.",
+      }],
+    },
+    {
+      code: "Object.assign(k.j.w.__W.a.v, { v: 3 });",
+      options: [['__W'], true],
       errors: [{
         message: "This is an unacceptable mutation.",
       }],
