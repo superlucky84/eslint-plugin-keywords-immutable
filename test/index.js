@@ -169,7 +169,7 @@ ruleTester.run("no-mutation", rule, {
       }],
     },
     {
-      code: "Object.assign(k.j.w.__W.a.v, { v: 3 });",
+      code: "Object.assign(a.__W.s.a, { v: 3 });",
       options: [['__W'], true],
       errors: [{
         message: "This is an unacceptable mutation.",

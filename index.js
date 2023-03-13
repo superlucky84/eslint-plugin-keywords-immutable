@@ -45,8 +45,8 @@ function catchCallExression(node, keywords, deep) {
       return true;
     } else if (firstArgument.property && checkKeyword(firstArgument.property.name, keywords)) {
       return true;
-    } else if (deep && firstArgument.object.object){
-      return catchAssignmentExpression(firstArgument.object, keywords, deep);
+    } else if (deep && firstArgument.object){
+      return catchAssignmentExpression(firstArgument, keywords, deep);
     }
 
     return false;
