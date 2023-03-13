@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-keywords-immutable",
-  "version": "1.3.9",
+  "version": "1.3.10",
   "description": "ESLint plugin to disable targeting keyword mutation in JavaScript.",
   "main": "index.js",
   "keywords": [

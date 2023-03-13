@@ -41,12 +41,10 @@ function catchCallExression(node, keywords, deep) {
   if (isAssignMehotd) {
     const firstArgument = node.arguments[0];
 
-    if (firstArgument.name && checkKeyword(firstArgument.name, keywords)) {
+    if (firstArgument.type !== "MemberExpression") {
+      return false;
+    } else if (catchAssignmentExpression({object : firstArgument, type: 'MemberExpression'}, keywords, deep)) {
       return true;
-    } else if (firstArgument.property && checkKeyword(firstArgument.property.name, keywords)) {
-      return true;
-    } else if (deep && firstArgument.object){
-      return catchAssignmentExpression(firstArgument, keywords, deep);
     }
 
     return false;
