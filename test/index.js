@@ -1,12 +1,17 @@
 "use strict";
 
-var RuleTester = require("eslint").RuleTester;
+const { RuleTester } = require("eslint");
 
-var rule = require("../index.js").rules['no-mutation'];
-var ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
+const rule = require("../index.js").rules["no-mutation"];
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    ecmaVersion: 2022,
+    sourceType: "module",
+    globals: {
+      window: "readonly",
+      __W: "readonly",
+    },
   },
 });
 
