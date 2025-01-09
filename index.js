@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  meta: { name: 'eslint-plugin-keywords-immutable', version: '1.3.12' },
+  meta: { name: 'eslint-plugin-keywords-immutable', version: '2.0.1' },
   rules: {
     'no-mutation': {
       meta: {
