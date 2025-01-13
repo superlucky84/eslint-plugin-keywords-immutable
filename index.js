@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  meta: { name: 'eslint-plugin-keywords-immutable', version: '2.0.1' },
+  meta: { name: 'eslint-plugin-keywords-immutable', version: '2.0.2' },
   rules: {
     'no-mutation': {
       meta: {
@@ -88,8 +88,8 @@ function catchCallExpression(node, keywords, deep) {
 
 function catchAssignmentExpression(target, keywords, deep) {
   if (target.type === 'ArrayPattern') {
-    return target.elements.some(item =>
-      catchAssignmentExpression(item, keywords, deep)
+    return target.elements.some(
+      item => item && catchAssignmentExpression(item, keywords, deep)
     );
   } else if (target.type === 'ObjectPattern') {
     return target.properties.some(item =>
